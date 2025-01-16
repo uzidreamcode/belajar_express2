@@ -14,6 +14,10 @@ router.get('/getkaryawan',
     [authMiddleware.verifyToken, authMiddleware.isAdmin], 
     userController.pagination
 );
+router.post('/add_karyawan', 
+    [authMiddleware.verifyToken, authMiddleware.isAdmin], 
+    userController.add_karyawan
+);
 
 router.get('/profile', 
     [authMiddleware.verifyToken], 

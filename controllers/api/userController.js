@@ -63,7 +63,7 @@ module.exports = {
                       attributes: ['nama'], 
                   },
               ],
-            });
+            });zx`x`
             return res.status(200).json(response);
         } catch (error) {
             return res.status(500).json({
@@ -73,4 +73,49 @@ module.exports = {
         }
     },
 
+    add_karyawan: async (req, res) => {
+      try {
+          const schema = {
+              nama: { type: 'string', empty: false },
+              alamat: { type: 'string', empty: false },
+              no_telp: { type: 'string', empty: false },
+              email: { type: 'email', empty: false },
+              password: { type: 'string', empty: false },
+              role: { type: 'string', empty: false },
+          };
+          const validate = v.compile(schema);
+          const valid = validate(req.body);
+  
+          if (valid !== true) {
+              console.error('Validation errors:', valid);
+              return res.status(400).json({
+                  message: 'Validation failed',
+                  error: valid,
+              });
+          }
+  
+          // Hash password
+          const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+          req.body.password = hashedPassword;
+  
+          const response = await Karyawan.create(req.body);
+  
+          const user = {
+              id_karyawan: response.id_karyawan,
+              email: req.body.email,
+              password: hashedPassword,
+              role: req.body.role,
+          };
+          await User.create(user); 
+  
+          return res.status(201).json(response);
+      } catch (error) {
+          console.error('Error details:', error);
+          return res.status(500).json({
+              message: 'Error adding data',
+              error: error.message,
+          });
+      }
+  },
+  
 };

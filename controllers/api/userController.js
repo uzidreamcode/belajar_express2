@@ -73,6 +73,58 @@ module.exports = {
         }
     },
 
+
+    bulkStore: async (req, res) => {
+      try {
+          const schema = {
+              items: {
+                  type: 'array',
+                  items: {
+                      type: 'object',
+                      props: {
+                          nama: { type: 'string', empty: false },
+                          alamat: { type: 'string', empty: false },
+                          no_telp: { type: 'string', empty: false },
+                          email: { type: 'email', empty: false },
+                          password: { type: 'string', min: 6, empty: false },
+                          role: { type: 'string', empty: false },
+                      },
+                  },
+              },
+          };
+  
+          const validate = v.validate(req.body, schema);
+  
+          if (validate.length) {
+              return res.status(400).json({ message: 'Validation failed', errors: validate });
+          }
+  
+          // Bulk insert ke tabel Karyawan
+          const karyawanData = req.body.items.map((item) => ({
+              nama: item.nama,
+              alamat: item.alamat,
+              no_telp: item.no_telp,
+          }));
+          const karyawanResponse = await Karyawan.bulkCreate(karyawanData, { returning: true });
+  
+          // Bulk insert ke tabel User
+          const userData = karyawanResponse.map((karyawan, index) => ({
+              id_karyawan: karyawan.id_karyawan,
+              email: req.body.items[index].email,
+              password: bcrypt.hashSync(req.body.items[index].password, 8), // Hash password
+              role: req.body.items[index].role,
+          }));
+          await User.bulkCreate(userData);
+  
+          return res.status(201).json({ message: 'Data was inserted!' });
+      } catch (err) {
+          console.error('Error:', err);
+          return res.status(500).json({ message: 'Error inserting data', error: err.message });
+      }
+  },
+  
+  
+
     add_karyawan: async (req, res) => {
       try {
           const schema = {

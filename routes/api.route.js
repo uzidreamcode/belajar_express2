@@ -19,6 +19,11 @@ router.post('/add_karyawan',
     userController.add_karyawan
 );
 
+router.post('/add_bulk', 
+    [authMiddleware.verifyToken, authMiddleware.isAdmin], 
+    userController.bulkStore
+);
+
 router.get('/profile', 
     [authMiddleware.verifyToken], 
     userController.profile

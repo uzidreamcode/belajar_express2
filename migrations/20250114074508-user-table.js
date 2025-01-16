@@ -9,11 +9,11 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      id_pengunjung: {
+      id_karyawan: {
         type: Sequelize.INTEGER,    
         references: {
-          model: 'pengunjung', 
-          key: 'id_pengunjung', 
+          model: 'karyawan', 
+          key: 'id_karyawan', 
         },
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE', 

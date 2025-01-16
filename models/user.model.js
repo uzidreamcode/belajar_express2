@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    id_pengunjung: {
+    id_karyawan: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Pengunjung',
-        key: 'id_pengunjung',
+        model: 'karaywan',
+        key: 'id_karyawan',
       },
       allowNull: false, 
     },
@@ -36,10 +36,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false, 
   });
 
-  // Relasi dengan Pengunjung
+  // Relasi dengan Karyawan
   Users.associate = function(models) {
-    Users.belongsTo(models.Pengunjung, {
-      foreignKey: 'id_pengunjung',
+    Users.belongsTo(models.Karyawan, {
+      foreignKey: 'id_karyawan',
       onDelete: 'CASCADE', 
       onUpdate: 'CASCADE', 
     });

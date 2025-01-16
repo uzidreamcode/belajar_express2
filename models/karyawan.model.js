@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const Pengunjung = sequelize.define(
-    'Pengunjung',
+  const Karyawan = sequelize.define(
+    'Karyawan',
     {
-      id_pengunjung: {
+      id_karyawan: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -33,18 +33,18 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: 'pengunjung', 
+      tableName: 'karyawan', 
       freezeTableName: true, 
       timestamps: false, 
     }
   );
 
-  Pengunjung.associate = (models) => {
-    Pengunjung.hasMany(models.User, {
-      foreignKey: 'id_pengunjung',
+  Karyawan.associate = (models) => {
+    Karyawan.hasMany(models.User, {
+      foreignKey: 'id_karyawan',
       as: 'users',
     });
   };
 
-  return Pengunjung;
+  return Karyawan;
 };

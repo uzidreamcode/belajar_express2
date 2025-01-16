@@ -3,8 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('pengunjung', {
-      id_pengunjung: {
+    await queryInterface.createTable('karyawan', {
+      id_karyawan: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -32,8 +32,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       
-
-      
+    
     });
    
   },

@@ -6,6 +6,7 @@ var router = express.Router();
 const authController = require('../controllers/api/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/api/userController');
+const absensiController = require('../controllers/api/absensiController');
 
 // Endpoint login
 router.post('/login', authController.signin);
@@ -22,6 +23,12 @@ router.post('/add_karyawan',
 router.post('/add_bulk', 
     [authMiddleware.verifyToken, authMiddleware.isAdmin], 
     userController.bulkStore
+);
+
+
+router.post('/absensi', 
+    [authMiddleware.verifyToken], 
+    absensiController.absensi
 );
 
 router.get('/profile', 
